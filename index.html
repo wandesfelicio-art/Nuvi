@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Nuvi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2DBFB0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap">
+<style>
+:root{--blue:#3AA6E8;--green:#5CC98A;--teal:#2DBFB0;--bg:#FFF8EE;--card:#fff;--ink:#243B4A;--mut:#6b8190;--line:#eadfce;--warn:#f0a43a;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13222b;--card:#1c313d;--ink:#eaf4f7;--mut:#9db4c0;--line:#2a4352;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13222b;--card:#1c313d;--ink:#eaf4f7;--mut:#9db4c0;--line:#2a4352;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito",ui-rounded,-apple-system,system-ui,sans-serif;padding:16px 16px 96px;max-width:520px;margin-inline:auto;-webkit-tap-highlight-color:transparent}
+header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+header .w{font-size:28px;font-weight:800;letter-spacing:-.5px}
+header .d{margin-left:auto;color:var(--mut);font-size:13px;font-weight:600;text-transform:capitalize;text-align:right}
+.card{background:var(--card);border-radius:24px;padding:18px;margin-bottom:14px;box-shadow:0 4px 18px rgba(36,59,74,.07)}
+h2{font-size:18px;margin:0 0 10px}
+.mut{color:var(--mut);font-size:13px;font-weight:600}
+.big{font-size:34px;font-weight:800;line-height:1}
+.center{text-align:center}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-weight:700;border:0;border-radius:16px;min-height:44px;padding:0 16px;background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;cursor:pointer}
+button.alt{background:transparent;color:var(--teal);border:2px solid var(--teal)}
+button.sm{min-height:36px;padding:0 12px;font-size:14px;border-radius:12px}
+button.chip{background:var(--bg);color:var(--ink);border:1.5px solid var(--line);font-weight:600;font-size:14px;min-height:38px;border-radius:999px}
+button:active{transform:scale(.97)}
+input{font:inherit;font-size:16px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:10px 12px;min-height:44px;width:100%}
+.bar{height:12px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .5s}
+.bar i.over{background:var(--warn)}
+.drop{width:170px;height:200px;margin:4px auto 8px;display:block}
+.drop .f{transition:transform .8s cubic-bezier(.3,.8,.3,1)}
+.li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.li:first-child{border-top:0}
+.li b{flex:1;font-weight:700}
+.x{background:none;color:var(--mut);min-height:36px;padding:0 10px;font-size:20px}
+.meal h3{margin:0;font-size:16px}
+.tip{background:linear-gradient(135deg,rgba(58,166,232,.15),rgba(92,201,138,.15))}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:var(--card);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav .in{display:flex;width:100%;max-width:520px}
+nav button{flex:1;background:none;color:var(--mut);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.2;padding:4px 0;min-height:48px;border-radius:12px}
+nav button span{font-size:20px}
+nav button.on{color:var(--teal)}
+.ban{background:var(--warn);color:#fff;font-weight:800;border-radius:16px;padding:12px 14px;margin-bottom:14px;text-align:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+<svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3AA6E8"/><stop offset="1" stop-color="#5CC98A"/></linearGradient></defs><path d="M18 4C18 4 6 17 6 25a12 12 0 0 0 24 0C30 17 18 4 18 4Z" fill="url(#lg)"/><path d="M21 15c5-1 10-4 11-10-6 0-10 4-11 10Z" fill="#5CC98A"/></svg>
+<div class="w">nuvi</div>
+<div class="d" id="date"></div>
+</header>
+
+<main>
+<div class="ban" id="ban" hidden>Hora de beber água 💧</div>
+<section id="t-agua" class="tab">
+<div class="card center">
+<svg class="drop" viewBox="0 0 100 126" aria-hidden="true">
+<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5CC98A"/><stop offset="1" stop-color="#3AA6E8"/></linearGradient><clipPath id="cp"><path d="M50 6C50 6 12 52 12 84a38 38 0 0 0 76 0C88 52 50 6 50 6Z"/></clipPath></defs>
+<path d="M50 6C50 6 12 52 12 84a38 38 0 0 0 76 0C88 52 50 6 50 6Z" fill="rgba(58,166,232,.14)"/>
+<g clip-path="url(#cp)"><rect class="f" id="fill" x="0" y="6" width="100" height="120" fill="url(#wg)" style="transform:translateY(120px)"/></g>
+</svg>
+<div class="big" id="wml">0 ml</div>
+<div class="mut" id="wleft">Meta: 2000 ml</div>
+<div class="bar"><i id="wbar"></i></div>
+</div>
+<div class="card">
+<h2>Registrar água</h2>
+<div class="row">
+<button data-w="150">+150 ml</button><button data-w="250">+250 ml</button><button data-w="500">+500 ml</button>
+</div>
+<div class="row" style="margin-top:10px;flex-wrap:nowrap">
+<input id="cw" type="number" inputmode="numeric" placeholder="Outra quantidade (ml)">
+<button class="alt" id="cwb">Add</button>
+</div>
+<div style="margin-top:12px"><button class="alt sm" id="undo">Desfazer último</button></div>
+</div>
+<div class="card" id="wlist"></div>
+</section>
+
+<section id="t-comida" class="tab" hidden>
+<div class="card">
+<div class="mut">Calorias de hoje</div>
+<div class="big" id="kc">0 kcal</div>
+<div class="bar"><i id="kbar"></i></div>
+<div class="mut" id="kleft"></div>
+</div>
+<div class="card">
+<h2>Adicionar alimento</h2>
+<div class="row" id="chips"></div>
+<div class="row" style="margin-top:12px;flex-wrap:nowrap">
+<input id="fn" placeholder="Outro alimento">
+<input id="fk" type="number" inputmode="numeric" placeholder="kcal" style="width:90px">
+</div>
+<button style="margin-top:10px;width:100%" id="fadd">Adicionar</button>
+</div>
+<div class="card"><h2>O que comi hoje</h2><div id="flist"></div></div>
+</section>
+
+<section id="t-dicas" class="tab" hidden>
+<div class="card tip"><b id="tipk"></b><div class="mut" id="tipw" style="margin-top:4px"></div></div>
+<div id="meals"></div>
+<div class="mut center" style="margin:8px 0 16px">Valores aproximados. Não substitui orientação de nutricionista.</div>
+</section>
+
+<section id="t-ajustes" class="tab" hidden>
+<div class="card">
+<h2>Suas metas</h2>
+<div class="mut" style="margin-bottom:4px">Água por dia (ml)</div>
+<input id="gw" type="number" inputmode="numeric">
+<div class="mut" style="margin:12px 0 4px">Calorias por dia (kcal)</div>
+<input id="gk" type="number" inputmode="numeric">
+<div class="mut" style="margin:12px 0 4px">Lembrar a cada (minutos, 0 desliga) com o app aberto</div>
+<input id="ge" type="number" inputmode="numeric">
+<label style="display:flex;gap:10px;align-items:center;margin-top:12px;font-weight:700"><input id="gs" type="checkbox" style="width:22px;min-height:22px"> Sons ativados</label>
+<button class="alt" style="margin-top:10px;width:100%" id="gt">Testar som</button>
+<button style="margin-top:14px;width:100%" id="gsave">Salvar metas</button>
+<div class="mut center" id="gmsg" style="margin-top:8px"></div>
+</div>
+<div class="card">
+<button class="alt" style="width:100%" id="reset">Apagar registros de hoje</button>
+<div class="mut center" style="margin-top:10px">Seus dados ficam só neste aparelho. No iPhone, toque em Compartilhar e Adicionar à Tela de Início para usar como app.</div>
+</div>
+</section>
+</main>
+
+<nav><div class="in">
+<button data-tab="agua" class="on"><span>💧</span>Água</button>
+<button data-tab="comida"><span>🍽️</span>Comida</button>
+<button data-tab="dicas"><span>✨</span>Sugestões</button>
+<button data-tab="ajustes"><span>⚙️</span>Ajustes</button>
+</div></nav>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var KEY="nuvi.v1";
+var S={goalW:2000,goalK:2000,sound:true,every:60,days:{}};
+try{var r=localStorage.getItem(KEY);if(r){var p=JSON.parse(r);if(p&&typeof p==="object")S=Object.assign(S,p);}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var AC=null;
+function unlock(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();}catch(e){}}
+function chime(ok){if(S.sound===false)return;try{unlock();var n=ok?[523,659,784,1047,1319]:[523,659];n.forEach(function(f,i){var o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+i*.16;o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.3);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.32);});}catch(e){}}
+document.addEventListener("touchstart",unlock,{once:true});document.addEventListener("click",unlock,{once:true});
+function dkey(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function day(){var k=dkey();if(!S.days[k])S.days[k]={w:[],f:[],s:{}};return S.days[k];}
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+function sum(a,k){return a.reduce(function(s,i){return s+i[k]},0);}
+
+var FOODS=[["Pão francês",150],["Pão integral (fatia)",65],["Ovo cozido",78],["Arroz (100 g)",130],["Feijão (concha)",76],["Frango grelhado (100 g)",165],["Carne magra (100 g)",190],["Peixe grelhado (100 g)",130],["Batata-doce (100 g)",90],["Macarrão (100 g)",160],["Salada (prato)",40],["Banana",90],["Maçã",70],["Mamão (fatia)",45],["Iogurte natural",70],["Queijo minas (30 g)",80],["Tapioca",130],["Aveia (2 colheres)",70],["Castanhas (30 g)",190],["Café com leite",60],["Suco de laranja",110],["Chocolate (20 g)",110]];
+var MEALS=[
+{t:"Café da manhã",e:"☕",o:[["Ovos mexidos, pão integral e mamão",320],["Iogurte natural com aveia e banana",240],["Tapioca com queijo minas e café com leite",290],["Pão integral com ovo e suco de laranja",310]]},
+{t:"Almoço",e:"🍛",o:[["Frango grelhado, arroz, feijão e salada",560],["Peixe grelhado, batata-doce e legumes",480],["Carne magra, arroz, feijão e salada",620],["Omelete de legumes, arroz e salada",450]]},
+{t:"Lanche",e:"🍎",o:[["Maçã com 10 castanhas",160],["Iogurte natural com aveia",140],["Banana com aveia",150],["Pão integral com queijo minas",145]]},
+{t:"Jantar",e:"🌙",o:[["Sopa de legumes com frango",350],["Omelete com salada e tapioca",380],["Peixe com legumes no vapor",320],["Wrap integral de frango e salada",420]]}];
+var TIPS=["Comece o dia com um copo d’água antes do café.","Tenha uma garrafa por perto: o que fica à vista é lembrado.","Beba um copo a cada refeição.","Sede muitas vezes é confundida com fome. Beba água primeiro.","Frutas e legumes também hidratam.","Distribua a água ao longo do dia, sem deixar tudo para a noite.","Mastigue devagar: o corpo leva um tempo para sinalizar saciedade."];
+var dn=Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
+
+$("date").textContent=new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"});
+
+function addWater(ml){if(!(ml>0&&ml<=5000))return;var d=day(),was=sum(d.w,"ml");d.w.push({ml:ml,t:Date.now()});save();var hit=was<S.goalW&&was+ml>=S.goalW;$("ban").textContent=hit?"Meta de água batida! 🎉":"Hora de beber água 💧";$("ban").hidden=!hit;chime(hit);render();}
+function addFood(n,k){n=(n||"").trim();if(!n||!(k>0&&k<=5000))return;day().f.push({n:n,k:k,t:Date.now()});save();render();}
+
+function render(){
+var d=day(),ml=sum(d.w,"ml"),gw=S.goalW||2000,gk=S.goalK||2000;
+var pw=Math.min(1,ml/gw);
+$("fill").style.transform="translateY("+((1-pw)*120)+"px)";
+$("wml").textContent=ml+" ml";
+$("wleft").textContent=ml>=gw?"Meta batida! 🎉 Meta: "+gw+" ml":"Faltam "+(gw-ml)+" ml · Meta: "+gw+" ml";
+$("wbar").style.width=(pw*100)+"%";
+var wl=$("wlist");wl.textContent="";wl.appendChild(el("h2",null,"Hoje"));
+if(!d.w.length)wl.appendChild(el("div","mut","Nenhum registro ainda."));
+d.w.slice().reverse().forEach(function(x){var r=el("div","li");r.appendChild(el("span",null,"💧"));r.appendChild(el("b",null,x.ml+" ml"));r.appendChild(el("span","mut",new Date(x.t).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})));wl.appendChild(r);});
+
+var kc=sum(d.f,"k"),pk=Math.min(1,kc/gk);
+$("kc").textContent=kc+" kcal";
+$("kbar").style.width=(pk*100)+"%";$("kbar").className=kc>gk?"over":"";
+$("kleft").textContent=kc>gk?"Passou "+(kc-gk)+" kcal da meta de "+gk:"Faltam "+(gk-kc)+" kcal · Meta: "+gk+" kcal";
+var fl=$("flist");fl.textContent="";
+if(!d.f.length)fl.appendChild(el("div","mut","Nada registrado ainda."));
+for(var i=d.f.length-1;i>=0;i--){(function(i){var x=d.f[i],r=el("div","li");r.appendChild(el("b",null,x.n));r.appendChild(el("span","mut",x.k+" kcal"));var b=el("button","x","×");b.setAttribute("aria-label","Remover");b.onclick=function(){d.f.splice(i,1);save();render();};r.appendChild(b);fl.appendChild(r);})(i);}
+
+var left=gk-kc;
+$("tipk").textContent=left>0?"Ainda cabem "+left+" kcal hoje":"Meta de calorias atingida por hoje";
+$("tipw").textContent=(ml<gw?"Faltam "+(gw-ml)+" ml de água. ":"Água em dia! ")+TIPS[dn%TIPS.length];
+var m=$("meals");m.textContent="";
+MEALS.forEach(function(ml_,mi){
+var idx=(d.s[mi]!=null)?d.s[mi]:(dn+mi)%4,o=ml_.o[idx];
+var c=el("div","card meal");
+c.appendChild(el("div","mut",ml_.e+" "+ml_.t));
+c.appendChild(el("h3",null,o[0]));
+c.appendChild(el("div","mut",o[1]+" kcal"));
+var r=el("div","row");r.style.marginTop="10px";
+var b1=el("button","sm","Comi");b1.onclick=function(){addFood(o[0],o[1]);};
+var b2=el("button","alt sm","Trocar");b2.onclick=function(){d.s[mi]=(idx+1)%4;save();render();};
+r.appendChild(b1);r.appendChild(b2);c.appendChild(r);m.appendChild(c);});
+}
+
+var ch=$("chips");
+FOODS.forEach(function(f){var b=el("button","chip",f[0]+" · "+f[1]);b.onclick=function(){addFood(f[0],f[1]);};ch.appendChild(b);});
+document.querySelectorAll("[data-w]").forEach(function(b){b.onclick=function(){addWater(+b.dataset.w);};});
+$("cwb").onclick=function(){addWater(parseInt($("cw").value,10));$("cw").value="";};
+$("undo").onclick=function(){day().w.pop();save();render();};
+$("fadd").onclick=function(){addFood($("fn").value,parseInt($("fk").value,10));$("fn").value="";$("fk").value="";};
+$("gsave").onclick=function(){var w=parseInt($("gw").value,10),k=parseInt($("gk").value,10),e=parseInt($("ge").value,10);if(w>0)S.goalW=w;if(k>0)S.goalK=k;S.every=e>=0?e:0;S.sound=$("gs").checked;save();render();$("gmsg").textContent="Metas salvas ✓";};
+$("reset").onclick=function(){if(confirm("Apagar os registros de hoje?")){S.days[dkey()]={w:[],f:[],s:{}};save();render();}};
+$("gw").value=S.goalW;$("gk").value=S.goalK;$("ge").value=S.every;$("gs").checked=S.sound!==false;
+$("gt").onclick=function(){var s=S.sound;S.sound=true;chime(true);S.sound=s;};
+setInterval(function(){var e=S.every;if(!(e>0))return;var d=day(),last=d.w.length?d.w[d.w.length-1].t:0,now=Date.now(),h=new Date().getHours();if(h>=7&&h<22&&sum(d.w,"ml")<S.goalW&&now-Math.max(last,window._la||0)>=e*60000){window._la=now;$("ban").textContent="Hora de beber água 💧";$("ban").hidden=false;chime(false);}},30000);
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
+document.querySelectorAll("nav button").forEach(function(x){x.classList.toggle("on",x===b);});
+document.querySelectorAll(".tab").forEach(function(t){t.hidden=t.id!=="t-"+b.dataset.tab;});
+window.scrollTo(0,0);};});
+render();
+})();
+</script>
+</body>
+</html>
